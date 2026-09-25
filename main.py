@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI
 from sqlmodel import Session, select
-from models import Usuario, Reserva, SQLModel
-from database import engine, get_session, init_db
+from models import Usuario, Reserva
+from database import get_session, init_db
 
 app = FastAPI()
 
@@ -32,4 +32,8 @@ def crear_reserva(reserva: Reserva, session: Session = Depends(get_session)):
 @app.get("/reservas/")
 def listar_reservas(session: Session = Depends(get_session)):
     return session.exec(select(Reserva)).all()
+
+@app.get("/")
+def root():
+    return {"message": "API funcionando correctamente"}
 
